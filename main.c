@@ -11,22 +11,36 @@ typedef struct lin_list {
 LinList_p findCell(LinList_p anchor, char *payload) {
     LinList_p curr = anchor->next;
     LinList_p prev = anchor;
-    if(anchor->next == NULL){
+
+    if (curr->next == NULL || curr->payload == NULL) {
         return anchor;
     }
-    while (curr->next != NULL) {
+
+    do {
         if (strcmp(curr->payload, payload) == 0) {
-            anchor->count += 1;
-            prev->next = curr->next;
+            if (curr->next == NULL) {
+                anchor->count += 1;
+                prev->next = NULL;
+                free(curr->payload);
+                free(curr);
+                break;
+            } else {
+                anchor->count += 1;
+                prev->next = curr->next;
+                LinList_p temp = curr;
+                curr = curr->next;
+                free(temp->payload);
+                free(temp);
+            }
+        } else {
             curr = curr->next;
-            anchor = prev;
-            //printf("Double");
+            prev = prev->next;
         }
-        curr = curr->next;
-        prev = prev->next;
-    }
+    } while (curr->next != NULL);
+
     return anchor;
 }
+
 
 LinList_p countInput(LinList_p anchor) {
     LinList_p curr = anchor;
@@ -52,13 +66,16 @@ int main(int argc, char *argv[]) {
     LinList_p curr = anchor;
     curr->next = NULL;
 
-    argc = 6;
+    argc = 9;
     argv[0] = 0;
     argv[1] = "agc";
     argv[2] = "agc";
     argv[3] = "abc";
     argv[4] = "agc";
-    argv[5] = "hfs";
+    argv[5] = "agc";
+    argv[6] = "abc";
+    argv[7] = "wub";
+    argv[8] = "agc";
 
     printf("Before:\n");
     for (int i = 1; i < argc; i++) {
