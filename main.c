@@ -65,18 +65,7 @@ int main(int argc, char *argv[]) {
     LinList_p anchor = malloc(sizeof(LinListCell));
     LinList_p curr = anchor;
     curr->next = NULL;
-
-    argc = 9;
-    argv[0] = 0;
-    argv[1] = "agc";
-    argv[2] = "agc";
-    argv[3] = "abc";
-    argv[4] = "agc";
-    argv[5] = "agc";
-    argv[6] = "abc";
-    argv[7] = "wub";
-    argv[8] = "agc";
-
+    
     printf("Before:\n");
     for (int i = 1; i < argc; i++) {
         printf("%s\n", argv[i]);
